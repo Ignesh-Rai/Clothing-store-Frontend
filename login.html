@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | IMG Square</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-section img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        marquee {
+            background-color: #333;
+            color: gold;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .login-box {
+            width: 300px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-btn {
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .submit-btn:hover {
+            background-color: #333;
+        }
+
+        .toggle-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .toggle-text span {
+            color: #d4af37;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <img src="images/logo.png" alt="Logo">
+            <h1>IMG Square</h1>
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <marquee direction="left">
+        ✨ Join IMG Square - Your Fashion Your Choice! ✨ | ✨ Best Brands, Unbeatable Prices! ✨
+    </marquee>
+
+    <div class="login-box">
+        <h2 id="title">User Login</h2>
+        <form id="form">
+            <div class="input-group" id="name-field" style="display: none;">
+                <label>Full Name</label>
+                <input type="text" id="name" placeholder="Enter Name">
+            </div>
+            <div class="input-group">
+                <label>Email ID</label>
+                <input type="email" id="email" placeholder="example@gmail.com" required>
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="pass" placeholder="Enter Password" required>
+            </div>
+            <button type="submit" class="submit-btn" id="btn">Sign In</button>
+        </form>
+        <p class="toggle-text" id="toggle">
+            New User? <span id="toggle-type">Register Here</span>
+        </p>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        document.getElementById('toggle').addEventListener('click', () => {
+            isLogin = !isLogin;
+            document.getElementById('title').innerText = isLogin ? "User Login" : "User Register";
+            document.getElementById('btn').innerText = isLogin ? "Sign In" : "Register Now";
+            document.getElementById('toggle-type').innerText = isLogin ? "Register Here" : "Login Here";
+            document.getElementById('name-field').style.display = isLogin ? "none" : "block";
+        });
+
+        document.getElementById('form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            let email = document.getElementById('email').value;
+            let pass = document.getElementById('pass').value;
+            let name = document.getElementById('name').value;
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            if (isLogin) {
+                let user = users.find(u => u.email === email && u.pass === pass);
+                if (user) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    window.location.href = "index.html";
+                } else {
+                    alert("Wrong email or password!");
+                }
+            } else {
+                if (users.find(u => u.email === email)) return alert("User exists!");
+                users.push({ name, email, pass });
+                localStorage.setItem('users', JSON.stringify(users));
+                alert("Registered! Please login.");
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
