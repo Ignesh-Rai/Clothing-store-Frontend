@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMG Square Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-section img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: black;
+        }
+
+        marquee {
+            background-color: #333;
+            color: gold;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .product-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .product-card {
+            width: 220px;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .price {
+            color: #d4af37;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .add-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .add-btn:hover {
+            background-color: #d4af37;
+        }
+
+        #cart-count {
+            background-color: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .row-label {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            font-size: 24px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo-section">
+            <img src="images/logo.png" alt="Logo">
+            <h1>IMG Square</h1>
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cart.html">Cart <span id="cart-count">0</span></a>
+            <span id="user-info" class="hidden">
+                <span id="welcome-msg"></span>
+                <a href="#" onclick="logout()">Logout</a>
+            </span>
+            <a href="login.html" id="login-link">Login</a>
+        </nav>
+    </header>
+
+    <marquee direction="left">
+        Welcome to IMG Square - Your Quality Clothing Destination! | Free Shipping on Orders over $99!
+    </marquee>
+
+    <h2 class="row-label">Latest Apparels Selection</h2>
+    <div class="product-section" id="row1"></div>
+    
+    <h2 class="row-label">Trending Accessories</h2>
+    <div class="product-section" id="row2"></div>
+
+    <script>
+        const productsList = [
+            { id: 1, name: "Harrington Jacket", price: 89.99, image: "images/jacket.png" },
+            { id: 2, name: "Summer Midi Dress", price: 59.99, image: "images/dress.png" },
+            { id: 3, name: "Premium Cotton Hoodie", price: 45.00, image: "images/hoodie.png" },
+            { id: 4, name: "Slim-Fit Denim Jeans", price: 75.50, image: "images/jeans.png" },
+            { id: 5, name: "White Polo Shirt", price: 35.00, image: "images/polo.png" },
+            { id: 6, name: "Black Leather Belt", price: 25.99, image: "images/belt.png" },
+            { id: 7, name: "Cotton Casual Shorts", price: 39.50, image: "images/shorts.png" },
+            { id: 8, name: "Navy Wool Scarf", price: 22.00, image: "images/scarf.png" }
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let user = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        function updateHeader() {
+            if (user) {
+                document.getElementById('user-info').classList.remove('hidden');
+                document.getElementById('login-link').classList.add('hidden');
+                document.getElementById('welcome-msg').innerText = "Hi, " + user.name;
+            }
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        function showProducts() {
+            let row1Html = "";
+            let row2Html = "";
+            
+            for (let i = 0; i < productsList.length; i++) {
+                let p = productsList[i];
+                let html = `
+                    <div class="product-card">
+                        <img src="${p.image}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <p class="price">$${p.price.toFixed(2)}</p>
+                        <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                    </div>
+                `;
+                
+                if (i < 4) {
+                    row1Html += html;
+                } else {
+                    row2Html += html;
+                }
+            }
+            
+            document.getElementById('row1').innerHTML = row1Html;
+            document.getElementById('row2').innerHTML = row2Html;
+        }
+
+        function addToCart(id) {
+            if (!user) {
+                alert("Please login first!");
+                window.location.href = "login.html";
+                return;
+            }
+            let p = productsList.find(x => x.id === id);
+            cart.push(p);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateHeader();
+            alert("Added to cart!");
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+
+        updateHeader();
+        showProducts();
+    </script>
+</body>
+
+</html>
