@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Confirmed | IMG Square</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-section img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        marquee {
+            background-color: #333;
+            color: gold;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .success-card {
+            width: 450px;
+            margin: 100px auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 2px solid #10b981;
+        }
+
+        .success-card h2 {
+            font-size: 30px;
+            color: #10b981;
+            margin-bottom: 20px;
+        }
+
+        .success-card p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .home-btn {
+            background-color: #d4af37;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-btn:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <img src="images/logo.png" alt="Logo">
+            <h1>IMG Square</h1>
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <marquee direction="left">
+        🎉 ORDER PLACED SUCCESSFULLY! | ✨ THANK YOU FOR SHOPPING AT IMG SQUARE! ✨
+    </marquee>
+
+    <div class="success-card">
+        <h2>Order Done!</h2>
+        <p>Your payment was successful and your order for IMG Square apparel is being processed. It will reach your address safely.</p>
+        <a href="index.html" class="home-btn">Go Back To Home</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | IMG Square</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-section img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        marquee {
+            background-color: #333;
+            color: gold;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .checkout-box {
+            width: 800px;
+            margin: 30px auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .shipping-form {
+            flex: 2;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .order-summary {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .pay-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .pay-btn:hover {
+            background-color: #d4af37;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <img src="images/logo.png" alt="Logo">
+            <h1>IMG Square</h1>
+        </div>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cart.html">Cart <span id="cc">0</span></a>
+        </nav>
+    </header>
+
+    <marquee direction="left">
+        💳 Fast & Secure Checkout | ✨ Safe Shopping Experience ✨
+    </marquee>
+
+    <div class="checkout-box">
+        <div class="shipping-form">
+            <h2>Shipping Address</h2>
+            <form id="check-form">
+                <div class="input-group">
+                    <label>House Name/Building</label>
+                    <input type="text" placeholder="123 Street" required>
+                </div>
+                <div class="input-group">
+                    <label>Area/City</label>
+                    <input type="text" placeholder="Fashion District" required>
+                </div>
+                <div class="input-group">
+                    <label>Pincode</label>
+                    <input type="text" placeholder="000000" required>
+                </div>
+                
+                <h2 style="margin-top: 20px;">Card Details</h2>
+                <div class="input-group">
+                    <label>Debit/Credit Card Number</label>
+                    <input type="text" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="input-group" style="flex: 1;">
+                        <input type="text" placeholder="Expiry MM/YY" required>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <input type="text" placeholder="CVV" required>
+                    </div>
+                </div>
+                <button type="submit" class="pay-btn">Confirm Purchase</button>
+            </form>
+        </div>
+
+        <div class="order-summary">
+            <h3>Order Details</h3>
+            <div id="summary-items"></div>
+            <div style="border-top: 2px solid #ddd; padding-top: 10px; margin-top: 10px;">
+                 <h3>Total: $<span id="total-price">0.00</span></h3>
+            </div>
+            <a href="cart.html" style="color: #666; font-size: 14px; text-decoration: none;">Return to Cart</a>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let user = JSON.parse(localStorage.getItem('currentUser')) || null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+             if (!user || cart.length === 0) window.location.href = "index.html";
+             
+             document.getElementById('cc').innerText = cart.length;
+             let html = "";
+             let total = 0;
+             for (let p of cart) {
+                 html += `
+                    <div class="summary-item">
+                        <span>${p.name}</span>
+                        <span>$${p.price.toFixed(2)}</span>
+                    </div>
+                 `;
+                 total += p.price;
+             }
+             document.getElementById('summary-items').innerHTML = html;
+             document.getElementById('total-price').innerText = total.toFixed(2);
+        });
+
+        document.getElementById('check-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            setTimeout(() => {
+                localStorage.removeItem('cart');
+                window.location.href = "success.html";
+            }, 800);
+        });
+    </script>
+</body>
+</html>
